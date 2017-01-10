@@ -1,10 +1,11 @@
 var myApp = angular.module('myApp', []);
 
 myApp.controller('mainController',['$scope', '$http', function($scope, $http) {
-
+  console.log('inside main controller');
 }]);
 
-myApp.controller('registerController',['$scope', '$http', function($scope, $http) {
+myApp.controller('registerController',['$scope', '$http', '$location', '$window',
+  function($scope, $http, $location, $window) {
   console.log('inside register controller');
 
   $scope.register = function() {
@@ -13,14 +14,15 @@ myApp.controller('registerController',['$scope', '$http', function($scope, $http
       password: $scope.password
     };
 
-    console.log('userInfo ->', userInfo);
-
     $http({
       method: 'POST',
       url: '/register',
       data: userInfo
-    }).then(function() {
-      console.log('register success!');
+    }).then(function successCallback(response) {
+      console.log('success', response);
+      $window.location.href = '/';
+    }, function errorCallback(response) {
+      console.log('error occurred!');
     });
   };
 }]);

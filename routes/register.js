@@ -15,12 +15,12 @@ router.post('/', function(req, res) {
   UserSchema.create(sentUser, function(err, response) {
     if(err){
       if(err.code)
-      console.log(err.code); //what error handling todo here?
+      console.log(err.code);
       // some error handling - bad password
       // next(err) - pass to more verbose error handling logic
       res.sendStatus(500);
     }else{
-      res.redirect('/'); // redirect to the login
+      res.status(201).send({message: "new user created successfully"});
     }
   });
 });
