@@ -9,12 +9,27 @@ router.get('/', function(req, res) {
   res.sendFile(indexPath);
 });
 
-// Handles login form POST from index.html
-router.post('/',
-    passport.authenticate('local', {
-        successRedirect: '/views/user.html',
-        failureRedirect: '/views/failure.html'
-    })
-);
+router.post('/', function functionName(req, res) {
+  passport.authenticate('local', function(err, account) {
+    console.log('account ->', account);
+    if(account){
+      res.status(200).send({message: "authenticated"});
+    }else{
+      res.status(500).send({message: "couldn't authenticate"});
+    }
+  })(req, res);
+});
+
+// from stack overflow
+// app.get('/login', function(req, res, next) {
+//   passport.authenticate('local', function(err, user, info) {
+//     if (err) { return next(err); }
+//     if (!user) { return res.redirect('/login'); }
+//     req.logIn(user, function(err) {
+//       if (err) { return next(err); }
+//       return res.redirect('/users/' + user.username);
+//     });
+//   })(req, res, next);
+// });
 
 module.exports = router;
