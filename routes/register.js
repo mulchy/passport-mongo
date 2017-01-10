@@ -7,4 +7,10 @@ router.get('/', function(req, res) {
   res.sendFile(regPath);
 });
 
+router.post('/', function(req, res) {
+  console.log('inside register post, req.body=', req.body);
+
+  res.sendStatus(200);
+});
+
 module.exports = router;
