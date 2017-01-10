@@ -8,15 +8,8 @@ router.get('/', function(req, res) {
   res.sendFile(indexPath);
 });
 
-router.post('/', function functionName(req, res) {
-  passport.authenticate('local', function(err, account, info) {
-    if(account){
-      res.status(200).send({message: info}); // user auth success
-    }else{
-      res.status(403).send({message: info}); // i understand, but refuse to grant access
-      // 404 - don't know what you are talking about
-    }
-  })(req, res);
+router.post('/', passport.authenticate('local'), function(req, res) {
+  res.sendStatus(200);
 });
 
 // from stack overflow

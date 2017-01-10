@@ -5,7 +5,7 @@ var User = require('../models/user');
 passport.use('local', new LocalStrategy({
   passReqToCallback: true
 }, function(req, username, attemptedPass, done) {
-    console.log('hit local strategy');
+  console.log('hit local strategy');
   // look up the user
   User.findOne({username: username}, function(err, user) {
     if(!user){
@@ -35,15 +35,17 @@ passport.serializeUser(function(user, done) {
 
 // deserialize user - "rehydrate"
 passport.deserializeUser(function(id, done) {
-    console.log('deserialized');
-    User.findById(id, function(err, user) {
-      if(err) {
-        done(err);
-      }
+  console.log('deserialized');
+  User.findById(id, function(err, user) {
+    if(err) {
+      done(err);
+    }
 
-      console.log('deserialized: ', user);
-      done(null, user);
-    });
+    console.log('deserialized: ', user);
+    done(null, user);
   });
+});
+
+
 
 module.exports = passport;
