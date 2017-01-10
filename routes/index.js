@@ -10,12 +10,13 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function functionName(req, res) {
-  passport.authenticate('local', function(err, account) {
+  passport.authenticate('local', function(err, account, info) {
     console.log('account ->', account);
     if(account){
-      res.status(200).send({message: "authenticated"});
+      res.status(200).send({message: info}); // user auth success
     }else{
-      res.status(500).send({message: "couldn't authenticate"});
+      res.status(403).send({message: info}); // i understand, but refuse to grant access
+      // 404 - don't know what you are talking about
     }
   })(req, res);
 });
