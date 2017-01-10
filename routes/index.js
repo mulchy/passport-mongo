@@ -11,7 +11,6 @@ router.get('/', function(req, res) {
 
 router.post('/', function functionName(req, res) {
   passport.authenticate('local', function(err, account, info) {
-    console.log('account ->', account);
     if(account){
       res.status(200).send({message: info}); // user auth success
     }else{

@@ -5,7 +5,7 @@ var User = require('../models/user');
 
 passport.use('local', new LocalStrategy({
   passReqToCallback: true
-}, function(req, username, password, done) {
+}, function(req, username, attemptedPass, done) {
     console.log('hit local strategy');
   // look up the user
   User.findOne({username: username}, function(err, user) {
@@ -13,9 +13,15 @@ passport.use('local', new LocalStrategy({
       done(null, false, {message: 'Incorrect credentials.'});
 
     }else{
-      // compare the password hashes
-      // respond true/false
-      done(null, true, {message: 'Found user!'});
+      user.comparePassword(attemptedPass, function(err, isMatch) {
+        // handle error case when error in returned from passwordCompare
+
+        if(isMatch){
+          done(null, true, {message: 'Login success!'});
+        }else{
+          done(null, false, {message: 'Incorrect credentials.'});
+        }
+      });
     }
   });
 }));
