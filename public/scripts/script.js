@@ -2,6 +2,24 @@ var myApp = angular.module('myApp', []);
 
 myApp.controller('mainController',['$scope', '$http', function($scope, $http) {
   console.log('inside main controller');
+
+  $scope.login = function(){
+
+    var userInfo = {
+      username: $scope.username,
+      password: $scope.password
+    };
+    
+    $http({
+      method: 'POST',
+      url: '/',
+      data: userInfo
+    }).then(function successCallback(response) {
+      console.log(response);
+    }, function errorCallback(error) {
+      console.log(error);
+    });
+  };
 }]);
 
 myApp.controller('registerController',['$scope', '$http', '$location', '$window',
@@ -21,7 +39,7 @@ myApp.controller('registerController',['$scope', '$http', '$location', '$window'
     }).then(function successCallback(response) {
       console.log('success', response);
       $window.location.href = '/';
-    }, function errorCallback(response) {
+    }, function errorCallback(error) {
       console.log('error occurred!');
     });
   };

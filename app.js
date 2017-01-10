@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var passport = require('./strategies/userStrategy');
 
 //require routers
 var indexRouter = require('./routes/index');
@@ -12,9 +13,12 @@ var app = express();
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-// routers
+// Routers
 app.use('/', indexRouter);
 app.use('/register', registerRouter);
+
+// Passport
+app.use(passport.initialize());
 
 // server port set and listen
 var serverPort = process.env.port || 3000;
