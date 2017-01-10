@@ -3,7 +3,6 @@ var path = require('path');
 var passport = require('passport');
 var router = express.Router();
 
-
 router.get('/', function(req, res) {
   var indexPath = path.join(__dirname, '../public/views/index.html');
   res.sendFile(indexPath);

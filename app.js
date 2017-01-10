@@ -6,6 +6,7 @@ var passport = require('./strategies/userStrategy');
 //require routers
 var indexRouter = require('./routes/index');
 var registerRouter = require('./routes/register');
+var homeRouter = require('./routes/home');
 
 var app = express();
 
@@ -16,6 +17,7 @@ app.use(express.static('public'));
 // Routers
 app.use('/', indexRouter);
 app.use('/register', registerRouter);
+app.use('/home', homeRouter);
 
 // Passport
 app.use(passport.initialize());

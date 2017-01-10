@@ -17,6 +17,7 @@ myApp.controller('mainController',['$scope', '$http', '$window',
       data: userInfo
     }).then(function successCallback(response) {
       console.log(response);
+      $window.location.href = '/home';
     }, function errorCallback(error) {
       console.log('error', error);
       // for now redirect to failure page
