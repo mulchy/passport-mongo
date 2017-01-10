@@ -2,7 +2,6 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
 
-
 passport.use('local', new LocalStrategy({
   passReqToCallback: true
 }, function(req, username, attemptedPass, done) {
@@ -17,7 +16,9 @@ passport.use('local', new LocalStrategy({
         // handle error case when error in returned from passwordCompare
 
         if(isMatch){
-          done(null, true, {message: 'Login success!'});
+          // this needs the user object
+          console.log('user', user);
+          done(null, user, {message: 'Login success!'});
         }else{
           done(null, false, {message: 'Incorrect credentials.'});
         }
@@ -25,5 +26,24 @@ passport.use('local', new LocalStrategy({
     }
   });
 }));
+
+// serialize user - "dehydrate"
+passport.serializeUser(function(user, done) {
+  console.log('serialized: ', user);
+  done(null, user.id);
+});
+
+// deserialize user - "rehydrate"
+passport.deserializeUser(function(id, done) {
+    console.log('deserialized');
+    User.findById(id, function(err, user) {
+      if(err) {
+        done(err);
+      }
+
+      console.log('deserialized: ', user);
+      done(null, user);
+    });
+  });
 
 module.exports = passport;

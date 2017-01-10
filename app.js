@@ -1,4 +1,5 @@
 var express = require('express');
+var session = require('express-session');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('./strategies/userStrategy');
@@ -7,6 +8,7 @@ var passport = require('./strategies/userStrategy');
 var indexRouter = require('./routes/index');
 var registerRouter = require('./routes/register');
 var homeRouter = require('./routes/home');
+var testRouter = require('./routes/test');
 
 var app = express();
 
@@ -18,9 +20,19 @@ app.use(express.static('public'));
 app.use('/', indexRouter);
 app.use('/register', registerRouter);
 app.use('/home', homeRouter);
+app.use('/test', testRouter);
+
+app.use(session({
+   secret: 'secret',
+   key: 'user',
+   resave: 'true',
+   saveUninitialized: false,
+   cookie: { maxage: 60000, secure: false }
+}));
 
 // Passport
 app.use(passport.initialize());
+app.use(passport.session());
 
 // server port set and listen
 var serverPort = process.env.port || 3000;
